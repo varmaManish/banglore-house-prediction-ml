@@ -31,22 +31,12 @@ A web-based machine learning application built with **Flask** that predicts hous
 
 ---
 
-## 📁 Project Structure
 
-app.py # Main Flask backend
-├── templates/
-│ └── index.html # Frontend HTML template
-├── static/ # Optional static files
-├── price_model.pkl # Trained model file
-├── label_encoder.pkl # Saved LabelEncoder for location
-├── Bengaluru_House_Data.csv # Raw dataset
-├── requirements.txt # List of dependencies
-└── README.md # This file
-
-### 1. Clone the Repository
+## 1. Clone the Repository
 
 ```bash
 git clone https://github.com/varmaManish/banglore-house-prediction-ml.git
 cd banglore-house-prediction-ml
+```
+made with ❤️ by Manish Varma
 
-ade with ❤️ by Manish Varma
