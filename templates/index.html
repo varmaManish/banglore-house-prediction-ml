@@ -1,180 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ML Model Prediction</title>
-    <style>
-        /* Base Styles */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Arial', sans-serif;
-        }
+  <meta charset="UTF-8" />
+  <title>Bangalore House Price Predictor</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 30px;
+      max-width: 600px;
+      margin: auto;
+      background-color: #f5f5f5;
+    }
 
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background: linear-gradient(135deg, #8e9eab, #eef2f3);
-            color: #333;
-            animation: fadeInBackground 1s ease-in-out;
-        }
+    h2 {
+      color: #333;
+      text-align: center;
+    }
 
-        h1 {
-            font-size: 2.5em;
-            color: #4b79a1;
-            margin-bottom: 1rem;
-        }
+    form {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
 
-        form {
-            background: #fff;
-            color: #333;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
-            width: 100%;
-            max-width: 400px;
-        }
+    label {
+      font-weight: bold;
+      margin-top: 10px;
+      display: block;
+    }
 
-        label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-            font-size: 0.9em;
-        }
+    input[type="number"],
+    select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      margin-bottom: 15px;
+      box-sizing: border-box;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
 
-        input[type="number"] {
-            width: 100%;
-            padding: 12px;
-            margin: 8px 0 20px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.1);
-        }
+    input[type="submit"] {
+      width: 100%;
+      padding: 12px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
 
-        input[type="submit"] {
-            width: 100%;
-            padding: 12px;
-            background: #4b79a1;
-            border: none;
-            color: #fff;
-            font-size: 1.1em;
-            font-weight: bold;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
+    input[type="submit"]:hover {
+      background-color: #0056b3;
+    }
 
-        /* Info Icon Styling */
-        .info-icon {
-            display: inline-block;
-            margin-left: 10px;
-            cursor: pointer;
-            font-size: 1.2em;
-            color: #007bff;
-        }
-
-        /* Info Popup Styling */
-        .info-popup {
-            display: none; /* Initially hidden */
-            position: absolute;
-            background-color: #f9f9f9;
-            border: 1px solid #ddd;
-            padding: 10px;
-            border-radius: 5px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-            width: 300px;
-            margin-top: 5px;
-        }
-
-        .info-popup::after {
-            content: '';
-            position: absolute;
-            top: -10px;
-            left: 20px;
-            border-width: 10px;
-            border-style: solid;
-            border-color: transparent transparent #f9f9f9 transparent;
-        }
-    </style>
+    .result {
+      background: #e6ffe6;
+      padding: 15px;
+      margin-top: 20px;
+      border-radius: 5px;
+      font-size: 18px;
+      color: #155724;
+    }
+  </style>
 </head>
 <body>
-    <div>
-        <h1>Predict the Loan</h1>
-        <form action="/predict" method="POST">
-            <label for="Dependents">
-                TOTAL FAMILY MEMBER
-                <span class="info-icon" onclick="toggleInfo('infoDependents')">ℹ️</span>
-            </label>
-            <div id="infoDependents" class="info-popup">Enter the total number of family members you are financially supporting.</div>
-            <input type="number" id="Dependents" name="Dependents" required>
+  <h2>Bangalore House Price Prediction</h2>
+  <form method="POST" action="/predict">
+    <label for="location">Location:</label>
+    <select name="location" required>
+      <option disabled selected value="">-- Select Location --</option>
+      {% for loc in locations %}
+        <option value="{{ loc }}">{{ loc }}</option>
+      {% endfor %}
+    </select>
 
-            <label for="Self_Employed">
-                Self Employed (1 or 0)
-                <span class="info-icon" onclick="toggleInfo('infoSelfEmployed')">ℹ️</span>
-            </label>
-            <div id="infoSelfEmployed" class="info-popup">Enter 1 if you are self-employed, otherwise enter 0.</div>
-            <input type="number" id="Self_Employed" name="Self_Employed" required>
+    <label for="sqft">Total Sqft:</label>
+    <input type="number" name="sqft" required>
 
-            <label for="ApplicantIncome">
-                Applicant Income
-                <span class="info-icon" onclick="toggleInfo('infoApplicantIncome')">ℹ️</span>
-            </label>
-            <div id="infoApplicantIncome" class="info-popup">Enter your monthly income in numeric format.</div>
-            <input type="number" id="ApplicantIncome" name="ApplicantIncome" required>
+    <label for="bath">Number of Bathrooms:</label>
+    <input type="number" name="bath" required>
 
-            <label for="CoapplicantIncome">
-                Coapplicant Income
-                <span class="info-icon" onclick="toggleInfo('infoCoapplicantIncome')">ℹ️</span>
-            </label>
-            <div id="infoCoapplicantIncome" class="info-popup">Enter the co-applicant's monthly income in numeric format.</div>
-            <input type="number" id="CoapplicantIncome" name="CoapplicantIncome" required>
+    <label for="bhk">Number of Bedrooms (BHK):</label>
+    <input type="number" name="bhk" required>
 
-            <label for="LoanAmount">
-                Loan Amount
-                <span class="info-icon" onclick="toggleInfo('infoLoanAmount')"></span>
-            </label>
-            <div id="infoLoanAmount" class="info-popup"></div>
-            <input type="number" id="LoanAmount" name="LoanAmount" required>
+    <input type="submit" value="Predict Price">
+  </form>
 
-            <label for="Loan_Amount_Term">
-                Loan Amount Term
-                <span class="info-icon" onclick="toggleInfo('infoLoanAmountTerm')">ℹ️</span>
-            </label>
-            <div id="infoLoanAmountTerm" class="info-popup">Enter the loan term in months (e.g., 12 for 1 years).</div>
-            <input type="number" id="Loan_Amount_Term" name="Loan_Amount_Term" required>
-
-            <label for="Credit_History">
-                Credit History
-                <span class="info-icon" onclick="toggleInfo('infoCreditHistory')">ℹ️</span>
-            </label>
-            <div id="infoCreditHistory" class="info-popup">Enter 1 if you have a good credit history, otherwise enter 0.</div>
-            <input type="number" id="Credit_History" name="Credit_History" required>
-
-            <input type="submit" value="Predict">
-        </form>
-        {% if prediction_text %}
-        <h2>Results:{{ prediction_text }}</h2>
-        {% endif %}
+  {% if prediction_text %}
+    <div class="result">
+      <p><strong>{{ prediction_text }}</strong></p>
+      <p>{{ location_text }}</p>
     </div>
-
-    <script>
-        function toggleInfo(infoId) {
-            const popup = document.getElementById(infoId);
-            if (popup.style.display === 'block') {
-                popup.style.display = 'none';
-            } else {
-                popup.style.display = 'block';
-            }
-            setTimeout(() => {
-                popup.style.display = 'none';
-            }, 3000); // Hide after 3 seconds
-        }
-    </script>
+  {% endif %}
 </body>
 </html>

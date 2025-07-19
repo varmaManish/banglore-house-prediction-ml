@@ -1,39 +1,52 @@
-from flask import Flask , render_template, request, jsonify
-import pickle as pkl
+from flask import Flask, render_template, request
+import pickle
 import numpy as np
-import pandas as pd
-
-# Load the trained model
-model_path = "model.pkl"
-with open(model_path, 'rb') as f:
-    model=pkl.load(f)
 
 app = Flask(__name__)
 
+# Load model and label encoder
+model = pickle.load(open('price_model.pkl', 'rb'))
+le = pickle.load(open('label_encoder.pkl', 'rb'))
+locations = sorted(le.classes_.tolist())
+print("LOCATIONS:", locations[:5])  # Debug print
+
 @app.route('/')
-def home():
-    return render_template('index.html')
+def index():
+    return render_template('index.html', locations=locations, prediction_text=None)
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    # Get data from form
     try:
-        Dependents = float(request.form.get('Dependents'))
-        Self_Employed = float(request.form.get('Self_Employed'))
-        ApplicantIncome = float(request.form.get('ApplicantIncome'))
-        CoapplicantIncome = float(request.form.get('CoapplicantIncome'))
-        LoanAmount = float(request.form.get('LoanAmount'))
-        Loan_Amount_Term = float(request.form.get('Loan_Amount_Term'))
-        Credit_History = float(request.form.get('Credit_History'))
-        # Add more features as needed based on the model input
-    except ValueError:
-        return "Invalid input. Please enter numeric values."
+        location = request.form['location']
+        total_sqft = float(request.form['sqft'])
+        bath = int(request.form['bath'])
+        bhk = int(request.form['bhk'])
 
-    # Create an array for the model
-    features = pd.DataFrame([[Dependents,Self_Employed,ApplicantIncome,CoapplicantIncome,LoanAmount,Loan_Amount_Term,Credit_History]],
-                            columns=['Dependents','Self_Employed','ApplicantIncome','CoapplicantIncome','LoanAmount','Loan_Amount_Term','Credit_History'])  # Adjust based on the number of features
-    prediction = model.predict(features)
-    output = 'approved' if prediction[0] == 1 else 'REJECT'
-    return render_template('index.html', prediction_text=' {}'.format(output))
+        location_encoded = le.transform([location])[0]
+        features = np.array([[total_sqft, bath, bhk, location_encoded]])
+        predicted_price = model.predict(features)[0]
+
+        return render_template(
+            'index.html',
+            locations=locations,
+            prediction_text=f"Estimated Price: ₹ {predicted_price:.2f} Lakhs",
+            location_text=f"Location: {location}"
+        )
+    except Exception as e:
+        return render_template(
+            'index.html',
+            locations=locations,
+            prediction_text="Prediction failed. Please check your input.",
+            location_text=f"Error: {str(e)}"
+        )
+# In your app.py, add this route for testing
+@app.route('/test')
+def test_template():
+    test_locations = ['Location1', 'Location2', 'Location3']
+    return render_template('index.html', 
+                         locations=test_locations,
+                         prediction_text="Test Prediction",
+                         location_text="Test Location")
+
 if __name__ == '__main__':
     app.run(debug=True)
