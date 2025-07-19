@@ -32,7 +32,7 @@ A web-based machine learning application built with **Flask** that predicts hous
 ---
 
 
-## 1. Clone the Repository
+## Clone the Repository
 
 ```bash
 git clone https://github.com/varmaManish/banglore-house-prediction-ml.git
