@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="page-hero">
+  <div class="page-subtitle">◈ INTELLIGENCE DASHBOARD</div>
+  <h1 class="page-title">MARKET <span class="accent">ANALYTICS</span></h1>
+</div>
+
+<div class="cyber-divider"><span class="divider-text">KEY PERFORMANCE INDICATORS</span></div>
+
+<!-- KPI STATS -->
+<div class="stats-grid">
+  <div class="cyber-card stat-card">
+    <div class="corner corner-tl"></div>
+    <div class="corner corner-br"></div>
+    <span class="stat-number">242</span>
+    <span class="stat-label">Location Nodes</span>
+    <div class="stat-bar-wrap"><div class="stat-bar" style="--bar-width: 90%;"></div></div>
+  </div>
+  <div class="cyber-card stat-card">
+    <div class="corner corner-tl"></div>
+    <div class="corner corner-br"></div>
+    <span class="stat-number" style="color:#ff006e; text-shadow:0 0 20px #ff006e;">93.4%</span>
+    <span class="stat-label">Model Accuracy</span>
+    <div class="stat-bar-wrap"><div class="stat-bar" style="--bar-width: 93%;"></div></div>
+  </div>
+  <div class="cyber-card stat-card">
+    <div class="corner corner-tl"></div>
+    <div class="corner corner-br"></div>
+    <span class="stat-number" style="color:#00ff88; text-shadow:0 0 20px #00ff88;">10K+</span>
+    <span class="stat-label">Training Records</span>
+    <div class="stat-bar-wrap"><div class="stat-bar" style="--bar-width: 75%;"></div></div>
+  </div>
+  <div class="cyber-card stat-card">
+    <div class="corner corner-tl"></div>
+    <div class="corner corner-br"></div>
+    <span class="stat-number" style="color:#ffd700; text-shadow:0 0 20px #ffd700;">&lt;50ms</span>
+    <span class="stat-label">Inference Speed</span>
+    <div class="stat-bar-wrap"><div class="stat-bar" style="--bar-width: 98%;"></div></div>
+  </div>
+</div>
+
+<div class="cyber-divider"><span class="divider-text">PRICE DISTRIBUTION BY ZONE</span></div>
+
+<!-- BAR CHART -->
+<div class="cyber-card chart-card">
+  <div class="corner corner-tl"></div>
+  <div class="corner corner-tr"></div>
+  <div class="corner corner-bl"></div>
+  <div class="corner corner-br"></div>
+  <div class="chart-title">◦ AVG PRICE PER SQFT — TOP ZONES (₹)</div>
+  <div class="bar-chart">
+    {% set zones = [
+      ('Whitefield', 7200, '85%'),
+      ('Koramangala', 9800, '100%'),
+      ('HSR Layout', 8400, '90%'),
+      ('Indiranagar', 10200, '100%'),
+      ('Electronic City', 5600, '58%'),
+      ('Marathahalli', 6800, '70%'),
+      ('JP Nagar', 7400, '78%'),
+    ] %}
+    {% for zone, price, pct in zones %}
+    <div class="bar-item">
+      <div class="bar-fill" style="height: {{ pct }}; animation-delay: {{ loop.index * 0.1 }}s;"></div>
+      <div class="bar-label">{{ zone }}<br><span style="color:#00f5ff; font-size:0.6rem;">₹{{ price }}</span></div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- BHK BREAKDOWN -->
+<div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.5rem;">
+  <div class="cyber-card chart-card">
+    <div class="corner corner-tl"></div>
+    <div class="corner corner-br"></div>
+    <div class="chart-title">◦ LISTING DISTRIBUTION BY BHK</div>
+    {% set bhk_data = [('1 BHK', '18%', '#00f5ff'), ('2 BHK', '42%', '#00ff88'), ('3 BHK', '31%', '#ff006e'), ('4+ BHK', '9%', '#ffd700')] %}
+    {% for label, pct, color in bhk_data %}
+    <div style="margin-bottom:1rem;">
+      <div style="display:flex; justify-content:space-between; font-family:'Share Tech Mono',monospace; font-size:0.65rem; margin-bottom:6px;">
+        <span style="color:rgba(180,210,255,0.7);">{{ label }}</span>
+        <span style="color:{{ color }};">{{ pct }}</span>
+      </div>
+      <div style="height:3px; background:rgba(255,255,255,0.05); border-radius:2px; overflow:hidden;">
+        <div style="height:100%; width:{{ pct }}; background:{{ color }}; box-shadow:0 0 10px {{ color }}; border-radius:2px; animation: growBar 1.2s ease forwards; width:0; --bar-width:{{ pct }};"></div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="cyber-card chart-card">
+    <div class="corner corner-tl"></div>
+    <div class="corner corner-br"></div>
+    <div class="chart-title">◦ PRICE RANGE SEGMENTS (LAKHS)</div>
+    {% set price_data = [('Budget &lt;40L', '22%', '#00f5ff'), ('Mid 40–80L', '38%', '#00ff88'), ('Premium 80L–2Cr', '29%', '#ff006e'), ('Luxury 2Cr+', '11%', '#ffd700')] %}
+    {% for label, pct, color in price_data %}
+    <div style="margin-bottom:1rem;">
+      <div style="display:flex; justify-content:space-between; font-family:'Share Tech Mono',monospace; font-size:0.65rem; margin-bottom:6px;">
+        <span style="color:rgba(180,210,255,0.7);">{{ label }}</span>
+        <span style="color:{{ color }};">{{ pct }}</span>
+      </div>
+      <div style="height:3px; background:rgba(255,255,255,0.05); border-radius:2px; overflow:hidden;">
+        <div style="height:100%; background:{{ color }}; box-shadow:0 0 10px {{ color }}; border-radius:2px; animation: growBar 1.2s ease forwards; width:0; --bar-width:{{ pct }};"></div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}

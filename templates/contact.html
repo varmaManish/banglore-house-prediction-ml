@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="page-hero">
+  <div class="page-subtitle">◈ COMMUNICATION TERMINAL</div>
+  <h1 class="page-title">CONTACT <span class="accent">US</span></h1>
+</div>
+
+<div class="cyber-divider"><span class="divider-text">ESTABLISH CONNECTION</span></div>
+
+<div class="contact-grid">
+
+  <!-- INFO PANEL -->
+  <div class="cyber-card contact-info">
+    <div class="corner corner-tl"></div>
+    <div class="corner corner-br"></div>
+    <h3>◦ CONTACT NODES</h3>
+
+    <div class="contact-item">
+      <span class="contact-icon">📡</span>
+      <div>
+        <div class="contact-item-label">EMAIL NODE</div>
+        <div class="contact-item-val">mv918038@gmail.com</div>
+      </div>
+    </div>
+
+    <div class="contact-item">
+      <span class="contact-icon">📞</span>
+      <div>
+        <div class="contact-item-label">PHONE / WHATSAPP</div>
+        <div class="contact-item-val" style="color:#00f5ff; font-family:'Share Tech Mono',monospace;">+91 XXXXX XXXXX</div>
+      </div>
+    </div>
+
+    <div class="contact-item">
+      <span class="contact-icon">⬡</span>
+      <div>
+        <div class="contact-item-label">LOCATION NODE</div>
+        <div class="contact-item-val">Bangalore, Karnataka, India</div>
+      </div>
+    </div>
+
+    <div class="contact-item">
+      <span class="contact-icon">◉</span>
+      <div>
+        <div class="contact-item-label">RESPONSE TIME</div>
+        <div class="contact-item-val" style="color:#00ff88;">Within 24 hours</div>
+      </div>
+    </div>
+
+    <div style="margin-top:2rem; padding-top:1.5rem; border-top:1px solid rgba(0,245,255,0.1);">
+      <div style="font-family:'Share Tech Mono',monospace; font-size:0.6rem; color:#00f5ff; letter-spacing:3px; margin-bottom:1rem;">◦ CONNECT ON</div>
+      <div style="display:flex; gap:1rem;">
+        {% for label in ['GH', 'LI', 'TW'] %}
+        <div style="width:40px;height:40px; border:1px solid rgba(0,245,255,0.2); display:flex; align-items:center; justify-content:center; font-family:'Orbitron',monospace; font-size:0.6rem; color:#00f5ff; cursor:pointer; transition:all 0.3s;" onmouseover="this.style.borderColor='#00f5ff'; this.style.background='rgba(0,245,255,0.1)'" onmouseout="this.style.borderColor='rgba(0,245,255,0.2)'; this.style.background='transparent'">{{ label }}</div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <!-- FORM -->
+  <div class="cyber-card contact-form-card">
+    <div class="corner corner-tl"></div>
+    <div class="corner corner-tr"></div>
+    <div class="corner corner-bl"></div>
+    <div class="corner corner-br"></div>
+
+    <div class="card-header-label">◈ MESSAGE COMPOSITION</div>
+    <div class="card-title">SEND TRANSMISSION</div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div style="margin-bottom:1.5rem; padding:1rem 1.5rem; border-radius:2px;
+            background: {% if category == 'error' %}rgba(255,0,110,0.07){% else %}rgba(0,255,136,0.05){% endif %};
+            border: 1px solid {% if category == 'error' %}rgba(255,0,110,0.4){% else %}rgba(0,255,136,0.3){% endif %};">
+            <div style="font-family:'Share Tech Mono',monospace; font-size:0.6rem; letter-spacing:5px;
+              color:{% if category == 'error' %}#ff006e{% else %}#00ff88{% endif %}; margin-bottom:4px;">
+              {{ '◈ TRANSMISSION ERROR' if category == 'error' else '◈ TRANSMISSION SENT' }}
+            </div>
+            <div style="font-size:0.9rem; color:{% if category == 'error' %}#ff006e{% else %}#00ff88{% endif %};">{{ message }}</div>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="/contact">
+      <div class="form-group">
+        <label class="form-label">◦ IDENTIFIER (NAME)</label>
+        <input type="text" name="name" class="form-control" placeholder="Your full name" required>
+      </div>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+        <div class="form-group">
+          <label class="form-label">◦ EMAIL NODE</label>
+          <input type="email" name="email" class="form-control" placeholder="your@email.com" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">◦ PHONE / WHATSAPP</label>
+          <input type="tel" name="phone" class="form-control" placeholder="+91 XXXXX XXXXX" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">◦ SUBJECT PROTOCOL</label>
+        <select name="subject" class="form-select" required>
+          <option disabled selected value="">── SELECT TOPIC ──</option>
+          <option>Property Price Inquiry</option>
+          <option>General Inquiry</option>
+          <option>Bug Report</option>
+          <option>Feature Request</option>
+          <option>Partnership</option>
+          <option>Data Accuracy</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">◦ MESSAGE PAYLOAD</label>
+        <textarea name="message" class="form-control" placeholder="Compose your message..."></textarea>
+      </div>
+
+      <button type="submit" class="btn-send">
+        <span>◈ TRANSMIT MESSAGE ◈</span>
+      </button>
+    </form>
+  </div>
+
+</div>
+
+{% endblock %}

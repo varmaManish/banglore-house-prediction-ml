@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="page-hero">
+  <div class="page-subtitle">◈ SYSTEM DOCUMENTATION</div>
+  <h1 class="page-title">ABOUT <span class="accent">THE PROJECT</span></h1>
+</div>
+
+<div class="cyber-divider"><span class="divider-text">ARCHITECTURE OVERVIEW</span></div>
+
+<div class="about-grid">
+
+  <div class="cyber-card about-card">
+    <div class="corner corner-tl"></div>
+    <div class="corner corner-br"></div>
+    <h3>◦ MISSION BRIEF</h3>
+    <p class="about-text">
+      HouseAI is an advanced real estate price prediction system engineered
+      for the Bangalore property market. Using regression algorithms trained
+      on thousands of listings, it delivers accurate valuations in milliseconds.
+    </p>
+  </div>
+
+  <div class="cyber-card about-card">
+    <div class="corner corner-tl"></div>
+    <div class="corner corner-br"></div>
+    <h3>◦ MODEL PARAMETERS</h3>
+    <p class="about-text">
+      The model processes four key variables — location, square footage,
+      bathroom count, and BHK configuration — to generate a market value
+      estimate aligned with current Bangalore real estate trends.
+    </p>
+  </div>
+
+  <div class="cyber-card about-card">
+    <div class="corner corner-tl"></div>
+    <div class="corner corner-br"></div>
+    <h3>◦ TECH STACK</h3>
+    <ul class="tech-stack">
+      <li>Python 3.11 — Core Language</li>
+      <li>Flask — Web Framework</li>
+      <li>Scikit-Learn — ML Engine</li>
+      <li>NumPy / Pandas — Data Layer</li>
+      <li>Bootstrap 5 — UI Foundation</li>
+    </ul>
+  </div>
+
+  <div class="cyber-card about-card">
+    <div class="corner corner-tl"></div>
+    <div class="corner corner-br"></div>
+    <h3>◦ PERFORMANCE METRICS</h3>
+    <ul class="tech-stack">
+      <li>Algorithm — Linear Regression</li>
+      <li>R² Score — 0.847</li>
+      <li>MAE — ₹4.2 Lakhs avg error</li>
+      <li>Training Set — 8,000+ records</li>
+      <li>Inference Time — &lt;50ms</li>
+    </ul>
+  </div>
+
+</div>
+
+<div class="cyber-divider"><span class="divider-text">DATA PIPELINE</span></div>
+
+<div class="cyber-card about-card" style="max-width: 100%;">
+  <div class="corner corner-tl"></div>
+  <div class="corner corner-tr"></div>
+  <div class="corner corner-bl"></div>
+  <div class="corner corner-br"></div>
+  <h3>◦ HOW IT WORKS</h3>
+  <p class="about-text" style="margin-bottom:1rem;">
+    Raw listing data from Bangalore is collected, cleaned, and preprocessed
+    to remove outliers and anomalies. Features are one-hot encoded for location
+    data, and the final model is serialized using joblib for fast production inference.
+    Every prediction request is processed server-side in real time with no caching.
+  </p>
+  <div style="display:flex; gap:1rem; flex-wrap:wrap; margin-top:1rem;">
+    {% for step in [('01', 'DATA COLLECTION', '#00f5ff'), ('02', 'PREPROCESSING', '#ffd700'), ('03', 'MODEL TRAINING', '#ff006e'), ('04', 'PREDICTION API', '#00ff88')] %}
+    <div style="flex:1; min-width:140px; padding:1rem; border:1px solid {{ step[2] }}22; border-radius:2px; text-align:center;">
+      <div style="font-family:'Orbitron',monospace; font-size:1.5rem; font-weight:900; color:{{ step[2] }}; text-shadow:0 0 15px {{ step[2] }}; margin-bottom:0.3rem;">{{ step[0] }}</div>
+      <div style="font-family:'Share Tech Mono',monospace; font-size:0.6rem; color:rgba(180,210,255,0.6); letter-spacing:3px;">{{ step[1] }}</div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}

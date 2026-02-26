@@ -1,99 +1,90 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Bangalore House Price Predictor</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 30px;
-      max-width: 600px;
-      margin: auto;
-      background-color: #f5f5f5;
-    }
+{% extends "base.html" %}
+{% block content %}
 
-    h2 {
-      color: #333;
-      text-align: center;
-    }
+<!-- HERO -->
+<section class="hero-section">
+  <div class="hero-eyebrow">◈ NEURAL PRICE INTELLIGENCE v2.6 ◈</div>
+  <h1 class="hero-title">
+    BANGALORE<br><span class="accent">REAL ESTATE</span><br>PREDICTOR
+  </h1>
+  <p class="hero-sub">Machine learning model trained on 10,000+ property listings</p>
+</section>
 
-    form {
-      background: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
+<!-- PREDICT CARD -->
+<div class="cyber-card predict-card">
+  <div class="corner corner-tl"></div>
+  <div class="corner corner-tr"></div>
+  <div class="corner corner-bl"></div>
+  <div class="corner corner-br"></div>
 
-    label {
-      font-weight: bold;
-      margin-top: 10px;
-      display: block;
-    }
+  <div class="card-header-label">◈ INPUT PARAMETERS</div>
+  <div class="card-title">PROPERTY CONFIGURATION</div>
 
-    input[type="number"],
-    select {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      margin-bottom: 15px;
-      box-sizing: border-box;
-      border-radius: 4px;
-      border: 1px solid #ccc;
-    }
-
-    input[type="submit"] {
-      width: 100%;
-      padding: 12px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-
-    input[type="submit"]:hover {
-      background-color: #0056b3;
-    }
-
-    .result {
-      background: #e6ffe6;
-      padding: 15px;
-      margin-top: 20px;
-      border-radius: 5px;
-      font-size: 18px;
-      color: #155724;
-    }
-  </style>
-</head>
-<body>
-  <h2>Bangalore House Price Prediction</h2>
   <form method="POST" action="/predict">
-    <label for="location">Location:</label>
-    <select name="location" required>
-      <option disabled selected value="">-- Select Location --</option>
-      {% for loc in locations %}
-        <option value="{{ loc }}">{{ loc }}</option>
-      {% endfor %}
-    </select>
 
-    <label for="sqft">Total Sqft:</label>
-    <input type="number" name="sqft" required>
+    <div class="form-group">
+      <label class="form-label">◦ LOCATION NODE</label>
+      <select name="location" class="form-select" required>
+        <option disabled selected value="">── SELECT AREA ──</option>
+        {% for loc in locations %}
+          <option value="{{ loc }}">{{ loc }}</option>
+        {% endfor %}
+      </select>
+    </div>
 
-    <label for="bath">Number of Bathrooms:</label>
-    <input type="number" name="bath" required>
+    <div class="form-grid">
+      <div class="form-group">
+        <label class="form-label">◦ SQ.FT AREA</label>
+        <input type="number" name="sqft" class="form-control" placeholder="e.g. 1200" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">◦ BATHROOMS</label>
+        <input type="number" name="bath" class="form-control" placeholder="e.g. 2" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">◦ BHK CONFIG</label>
+        <input type="number" name="bhk" class="form-control" placeholder="e.g. 3" required>
+      </div>
+    </div>
 
-    <label for="bhk">Number of Bedrooms (BHK):</label>
-    <input type="number" name="bhk" required>
+    <button type="submit" class="btn-predict">
+      <span>⬡ EXECUTE PRICE ANALYSIS ⬡</span>
+    </button>
 
-    <input type="submit" value="Predict Price">
   </form>
 
   {% if prediction_text %}
-    <div class="result">
-      <p><strong>{{ prediction_text }}</strong></p>
-      <p>{{ location_text }}</p>
-    </div>
+  <div class="result-box">
+    <div class="corner corner-tl" style="border-color: #00ff88;"></div>
+    <div class="corner corner-br" style="border-color: #00ff88;"></div>
+    <div class="result-label">◈ PREDICTED MARKET VALUE</div>
+    <div class="result-price">{{ prediction_text }}</div>
+    <div class="result-location">{{ location_text }}</div>
+  </div>
   {% endif %}
-</body>
-</html>
+
+</div>
+
+<!-- MINI STATS ROW -->
+<div style="display:grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 2rem; max-width: 780px; margin-left: auto; margin-right: auto; opacity:0; animation: fadeUp 0.8s 1.1s forwards;">
+  <div class="cyber-card" style="padding: 1.2rem; text-align:center;">
+    <div class="corner corner-tl"></div>
+    <div class="corner corner-br"></div>
+    <span style="font-family:'Orbitron',monospace; font-size:1.4rem; font-weight:900; color:#00f5ff; text-shadow:0 0 15px #00f5ff;">242</span>
+    <span style="display:block; font-family:'Share Tech Mono',monospace; font-size:0.55rem; color:rgba(180,210,255,0.5); letter-spacing:3px; margin-top:4px;">LOCATIONS</span>
+  </div>
+  <div class="cyber-card" style="padding: 1.2rem; text-align:center;">
+    <div class="corner corner-tl"></div>
+    <div class="corner corner-br"></div>
+    <span style="font-family:'Orbitron',monospace; font-size:1.4rem; font-weight:900; color:#ff006e; text-shadow:0 0 15px #ff006e;">93.4%</span>
+    <span style="display:block; font-family:'Share Tech Mono',monospace; font-size:0.55rem; color:rgba(180,210,255,0.5); letter-spacing:3px; margin-top:4px;">ACCURACY</span>
+  </div>
+  <div class="cyber-card" style="padding: 1.2rem; text-align:center;">
+    <div class="corner corner-tl"></div>
+    <div class="corner corner-br"></div>
+    <span style="font-family:'Orbitron',monospace; font-size:1.4rem; font-weight:900; color:#00ff88; text-shadow:0 0 15px #00ff88;">10K+</span>
+    <span style="display:block; font-family:'Share Tech Mono',monospace; font-size:0.55rem; color:rgba(180,210,255,0.5); letter-spacing:3px; margin-top:4px;">DATA POINTS</span>
+  </div>
+</div>
+
+{% endblock %}
